@@ -26,10 +26,10 @@
             } else {
                 $('.fixed-top').removeClass('shadow').css('top', 0);
             }
-        } 
+        }
     });
-    
-    
+
+
    // Back to top button
    $(window).scroll(function () {
     if ($(this).scrollTop() > 300) {
@@ -134,17 +134,23 @@
     // Product Quantity
     $('.quantity button').on('click', function () {
         var button = $(this);
-        var oldValue = button.parent().parent().find('input').val();
+        var oldValue = button.parent().parent().find('input.cart-qty').val();
         if (button.hasClass('btn-plus')) {
-            var newVal = parseFloat(oldValue) + 1;
+            let instockItem = +button.parent().parent().find('input.in-stock')[0].value;
+            if (oldValue < instockItem) {
+                var newVal = parseFloat(oldValue) + 1;
+            }else{
+                newVal = oldValue;
+            }
+
         } else {
-            if (oldValue > 0) {
+            if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
             } else {
-                newVal = 0;
+                newVal = oldValue;
             }
         }
-        button.parent().parent().find('input').val(newVal);
+        button.parent().parent().find('input.cart-qty').val(newVal);
     });
 
 })(jQuery);

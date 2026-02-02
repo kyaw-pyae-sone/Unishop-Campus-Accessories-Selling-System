@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class CartController extends Controller
 {
     // RENDER CART PAGE
     public function getCart(): Factory| View {
-        $carts = Cart::select("carts.id as cart_id", "carts.qty", "products.id as product_id", "products.name", "products.price", "products.photo")
+        $carts = Cart::select("carts.id as cart_id", "carts.qty", "products.id as product_id", "products.name", "products.price", "products.photo", "products.stock")
                         ->  where("carts.user_id", Auth::user()->id)
                         ->  leftJoin('products', 'products.id', '=', 'carts.product_id')
                         ->  get();

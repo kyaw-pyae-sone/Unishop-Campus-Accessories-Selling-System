@@ -90,6 +90,8 @@
                         <span class="badge text-bg-danger">
                             @if($unreadCount > 0)
                                 {{ $unreadCount }}
+                            @else
+                                0
                             @endif
                         </span></span></a>
             </li>
@@ -99,13 +101,13 @@
             </li>
 
             <li class="nav-item">
-                <form action="{{ route("logout") }}" method="post">
-                    @csrf
-                    <span class="nav-link">
-                        <button type="submit" class="btn bg-dark text-white"><i
-                                class="fa-solid fa-right-from-bracket"></i> Logout</button>
-                    </span>
-                </form>
+{{--                <form action="{{ route("logout") }}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <span class="nav-link">--}}
+{{--                        <button type="submit" id="logoutBtn" class="btn bg-dark text-white"><i--}}
+{{--                                class="fa-solid fa-right-from-bracket"></i> Logout</button>--}}
+{{--                    </span>--}}
+{{--                </form>--}}
             </li>
         </ul>
         <!-- End of Sidebar -->
@@ -162,9 +164,9 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <span class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                                    <form action="{{ route("logout") }}" method="post">
+                                    <form id="logoutForm" action="{{ route("logout") }}" method="post">
                                         @csrf
-                                        <input type="submit" class="btn btn-dark text-white w-100" value="Logout">
+                                        <input type="submit" id="logoutBtn" class="btn btn-dark text-white w-100" value="Logout">
                                     </form>
                                 </span>
                             </div>
@@ -235,6 +237,41 @@
 
             reader.readAsDataURL(event.target.files[0]);
         }
+
+        $(document).ready(function() {
+            $("#logoutBtn").click(function(event) {
+                event.preventDefault()
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You will be redirected to the login page.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Yes, logout!',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show a loading screen before the page redirects
+                        Swal.fire({
+                            title: 'Signing out...',
+                            text: 'Please wait while we secure your account.',
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                // Submit the hidden form after a brief delay for UI smoothness
+                                setTimeout(() => {
+                                    $("#logoutForm").submit();
+                                }, 500);
+                            }
+                        });
+                    }
+                });
+            });
+        })
     </script>
 
 </body>

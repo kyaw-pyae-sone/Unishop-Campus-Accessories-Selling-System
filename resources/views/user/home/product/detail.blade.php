@@ -34,7 +34,7 @@
 {{--                                    <i class="fa-solid fa-eye"></i>--}}
 
                             </div>
-                            <p class="mb-4">{{ $product -> description }}</p>
+{{--                            <p class="mb-4">{{ $product -> description }}</p>--}}
                             <form action="{{ route("user#addCart") }}" method="post">
                                 @csrf
                                 <input type="hidden" name="userId" value="{{ Auth::user() -> id }}">
@@ -46,8 +46,9 @@
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
+                                    <input type="hidden" class="in-stock" value="{{ $product -> stock }}">
                                     <input type="text" name="count"
-                                           class="form-control form-control-sm text-center border-0" value="1">
+                                           class="form-control form-control-sm text-center border-0 cart-qty" value="@if( $product -> stock > 0) 1 @else 0 @endif">
                                     <div class="input-group-btn">
                                         <button type="button"
                                                 class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -55,9 +56,12 @@
                                         </button>
                                     </div>
                                 </div>
-                                <button type="submit"
-                                        class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                        class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                @if( $product -> stock > 0 )
+                                    <button type="submit"
+                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
+                                            class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                @endif
+
 
 
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"

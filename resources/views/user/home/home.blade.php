@@ -96,9 +96,9 @@
                                                         <small class="text-start d-block">{!! Str::words( $product -> description,2,"...") !!}</small>
                                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                                             <p class="text-dark fs-5 fw-bold mb-0">{{ $product -> price }} mmk</p>
-                                                            <a href="#"
-                                                               class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>Buy Now</a>
+{{--                                                            <a href="#"--}}
+{{--                                                               class="btn border border-secondary rounded-pill px-3 text-primary"><i--}}
+{{--                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>Buy Now</a>--}}
                                                         </div>
                                                     </div>
                                                 </div>

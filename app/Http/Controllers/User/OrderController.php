@@ -57,11 +57,22 @@ class OrderController extends Controller
         return view('user.home.order.payment', compact('paymentAcc', "orderTemp", "paymentMethods"));
     }
 
-    public function addOrder(Request $request): RedirectResponse{
+    public function addOrder(Request $request): RedirectResponse| JsonResponse{
+
+//        dd("Hello");
 
         $this -> checkOrderValidation($request);
 
+//        dd("Hello");
+
 //        dd($request -> toArray());
+
+        if (!$request->has('confirmed')) {
+            return response()->json([
+                'status' => 'confirm',
+                'message' => 'Are you sure you want to confirm this order?'
+            ], 200);
+        }
 
         $orderTemp = Session::get("TempCart");
 
@@ -104,9 +115,10 @@ class OrderController extends Controller
             }
         }
 
-        Alert::success("Thank You", "Order placed Successfully!!!");
-
-        return to_route("user#home");
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Place Order Successfully!'
+        ]);
     }
 
     public function listOrder(Request $request): View{

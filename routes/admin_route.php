@@ -72,10 +72,12 @@ Route::group(["prefix" => "admin", "middleware" => "adminMiddleware"], function(
     });
 
     Route::group(["prefix" => "sale"], function(){
-        Route::get("/list", [SaleController::class, "list"]) -> name("sale#list");
+        Route::get("/list/{action?}", [SaleController::class, "list"]) -> name("sale#list");
     });
 
     Route::group(["prefix" => "message"], function(){
-        Route::get("/list", [ContactController::class, "list"]) -> name("message#list");
+        Route::get("/list/{action?}", [ContactController::class, "list"]) -> name("message#list");
+        Route::get("/detail/{id}", [ContactController::class, "detail"]) -> name("message#detail");
+        Route::get("/delete/{id}", [ContactController::class, "delete"]) -> name("message#delete");
     });
 });

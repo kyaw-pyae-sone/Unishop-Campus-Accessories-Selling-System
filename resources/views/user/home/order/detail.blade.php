@@ -96,15 +96,15 @@
                         <h6 class="m-0 font-weight-bold text-primary">Order Product List</h6>
                         @switch($orderList[0] -> status)
                             @case(1)
-                                <h6 class="text-success font-weight-bold">Accept</h6>
+                                <h6 class="badge bg-success p-2 font-weight-bold">Accept</h6>
                             @break
 
                             @case(2)
-                                <h6 class="text-danger font-weight-bold">Reject</h6>
+                                <h6 class="badge bg-danger p-2 font-weight-bold">Reject</h6>
                             @break
 
                             @default
-                                <h6 class="text-warning font-weight-bold">Pending</h6>
+                                <h6 class="badge bg-warning p-2 font-weight-bold">Pending</h6>
                         @endswitch
                 </div>
             </div>
@@ -187,111 +187,111 @@
     </div>
 @endsection
 
-@section("js-script")
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#btn-order-confirm").click(function() {
-                let orderCode = $("#orderCode").text();
-                let orderList = [];
+{{--@section("js-script")--}}
+{{--    <script type="text/javascript">--}}
+{{--        $(document).ready(function() {--}}
+{{--            $("#btn-order-confirm").click(function() {--}}
+{{--                let orderCode = $("#orderCode").text();--}}
+{{--                let orderList = [];--}}
 
-                $(".table tbody tr").each(function(idx, row) {
-                    let productId = $(row).find(".productId").val();
-                    let count = $(row).find(".productOrderCount").val();
-
-
-                    console.log(productId);
-                    console.log(count);
-
-                    orderList.push({
-                        "productId" : productId,
-                        "count" : count,
-                        "orderCode" : orderCode
-                    });
-                });
-
-                console.log("hello");
-
-                Swal.fire({
-                    title: "Are you sure You want to Confirm?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#0ea5e9",
-                    cancelButtonColor: "#9ca3af",
-                    confirmButtonText: "Yes"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "get",
-                            url: "/admin/order/confirm",
-                            data: Object.assign({}, orderList),
-                            dataType: "json",
-                            beforeSend: function() {
-                                Swal.fire({
-                                    title: 'Processing...',
-                                    didOpen: () => {
-                                        Swal.showLoading()
-                                    }
-                                });
-                            },
-                            success : function (res){
-                                Swal.fire(
-                                    'Saved!',
-                                    'Your Confirmation is Saved.',
-                                    'success'
-                                ).then(() => {
-                                    res.status === "success" ? location.href="/admin/order/list" : "";
-                                });
-
-                            }
-                        })
-                    }
-                });
-
-            });
-
-            $("#btn-order-reject").click(function() {
-                let orderCode = $("#orderCode").text();
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Yes, Reject it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "get",
-                            url: "/admin/order/reject",
-                            data: {"orderCode" : orderCode},
-                            dataType: "json",
-                            beforeSend: function() {
-                                Swal.fire({
-                                    title: 'Processing...',
-                                    didOpen: () => {
-                                        Swal.showLoading()
-                                    }
-                                });
-                            },
-                            success : function (res){
-                                Swal.fire(
-                                    'Saved!',
-                                    'Your Reject is Saved.',
-                                    'success'
-                                ).then(() => {
-                                    res.status === "success" ? location.href="/admin/order/list" : "";
-                                });
+{{--                $(".table tbody tr").each(function(idx, row) {--}}
+{{--                    let productId = $(row).find(".productId").val();--}}
+{{--                    let count = $(row).find(".productOrderCount").val();--}}
 
 
-                            }
-                        })
-                    }
-                });
+{{--                    console.log(productId);--}}
+{{--                    console.log(count);--}}
 
-            });
-        });
-    </script>
-@endsection
+{{--                    orderList.push({--}}
+{{--                        "productId" : productId,--}}
+{{--                        "count" : count,--}}
+{{--                        "orderCode" : orderCode--}}
+{{--                    });--}}
+{{--                });--}}
+
+{{--                console.log("hello");--}}
+
+{{--                Swal.fire({--}}
+{{--                    title: "Are you sure You want to Confirm?",--}}
+{{--                    text: "You won't be able to revert this!",--}}
+{{--                    icon: "warning",--}}
+{{--                    showCancelButton: true,--}}
+{{--                    confirmButtonColor: "#0ea5e9",--}}
+{{--                    cancelButtonColor: "#9ca3af",--}}
+{{--                    confirmButtonText: "Yes"--}}
+{{--                }).then((result) => {--}}
+{{--                    if (result.isConfirmed) {--}}
+{{--                        $.ajax({--}}
+{{--                            type: "get",--}}
+{{--                            url: "/admin/order/confirm",--}}
+{{--                            data: Object.assign({}, orderList),--}}
+{{--                            dataType: "json",--}}
+{{--                            beforeSend: function() {--}}
+{{--                                Swal.fire({--}}
+{{--                                    title: 'Processing...',--}}
+{{--                                    didOpen: () => {--}}
+{{--                                        Swal.showLoading()--}}
+{{--                                    }--}}
+{{--                                });--}}
+{{--                            },--}}
+{{--                            success : function (res){--}}
+{{--                                Swal.fire(--}}
+{{--                                    'Saved!',--}}
+{{--                                    'Your Confirmation is Saved.',--}}
+{{--                                    'success'--}}
+{{--                                ).then(() => {--}}
+{{--                                    res.status === "success" ? location.href="/admin/order/list" : "";--}}
+{{--                                });--}}
+
+{{--                            }--}}
+{{--                        })--}}
+{{--                    }--}}
+{{--                });--}}
+
+{{--            });--}}
+
+{{--            $("#btn-order-reject").click(function() {--}}
+{{--                let orderCode = $("#orderCode").text();--}}
+
+{{--                Swal.fire({--}}
+{{--                    title: "Are you sure?",--}}
+{{--                    text: "You won't be able to revert this!",--}}
+{{--                    icon: "warning",--}}
+{{--                    showCancelButton: true,--}}
+{{--                    confirmButtonColor: "#d33",--}}
+{{--                    cancelButtonColor: "#3085d6",--}}
+{{--                    confirmButtonText: "Yes, Reject it!"--}}
+{{--                }).then((result) => {--}}
+{{--                    if (result.isConfirmed) {--}}
+{{--                        $.ajax({--}}
+{{--                            type: "get",--}}
+{{--                            url: "/admin/order/reject",--}}
+{{--                            data: {"orderCode" : orderCode},--}}
+{{--                            dataType: "json",--}}
+{{--                            beforeSend: function() {--}}
+{{--                                Swal.fire({--}}
+{{--                                    title: 'Processing...',--}}
+{{--                                    didOpen: () => {--}}
+{{--                                        Swal.showLoading()--}}
+{{--                                    }--}}
+{{--                                });--}}
+{{--                            },--}}
+{{--                            success : function (res){--}}
+{{--                                Swal.fire(--}}
+{{--                                    'Saved!',--}}
+{{--                                    'Your Reject is Saved.',--}}
+{{--                                    'success'--}}
+{{--                                ).then(() => {--}}
+{{--                                    res.status === "success" ? location.href="/admin/order/list" : "";--}}
+{{--                                });--}}
+
+
+{{--                            }--}}
+{{--                        })--}}
+{{--                    }--}}
+{{--                });--}}
+
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
+{{--@endsection--}}

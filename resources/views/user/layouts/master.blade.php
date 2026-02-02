@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,9 +41,6 @@
 </head>
 
 <body>
-
-
-
 
 
     <!-- Navbar start -->
@@ -81,9 +79,9 @@
                                 <a href="{{ route("user#profileEdit", Auth::user() -> id) }}" class="dropdown-item my-2">Edit Profile</a>
                                 <a href="{{ route("user#pwChange") }}" class="dropdown-item my-2">Change Password</a>
                                 <a href="#" class="dropdown-item my-2">
-                                    <form action="{{ route("logout") }}" method="post">
+                                    <form id="logoutForm" action="{{ route("logout") }}" method="post">
                                         @csrf
-                                        <input type="submit" value="Logout"
+                                        <input type="submit" id="logoutBtn" value="Logout"
                                             class="btn btn-outline-success rounded w-100 mb-3">
                                     </form>
                                 </a>
@@ -243,6 +241,41 @@
 
             reader.readAsDataURL(event.target.files[0]);
         }
+
+        $(document).ready(function() {
+            $("#logoutBtn").click(function(event) {
+                event.preventDefault()
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You will be redirected to the login page.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Yes, logout!',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show a loading screen before the page redirects
+                        Swal.fire({
+                            title: 'Signing out...',
+                            text: 'Please wait while we secure your account.',
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                // Submit the hidden form after a brief delay for UI smoothness
+                                setTimeout(() => {
+                                    $("#logoutForm").submit();
+                                }, 500);
+                            }
+                        });
+                    }
+                });
+            });
+        })
     </script>
 
     </body>

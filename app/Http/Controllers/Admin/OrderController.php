@@ -20,6 +20,7 @@ class OrderController extends Controller
     public function list(): Factory| View {
 
         $orderList = Order::select("products.id as product_id","products.stock","orders.id", "orders.order_code", "orders.created_at", "orders.status", "orders.count", "users.name")
+                            ->  where("status", 0)
                             ->  leftJoin("users", "users.id", "=", "orders.user_id")
                             ->  leftJoin("products", "orders.product_id", "=", "products.id")
                             ->  when(request("searchKey"), function ($query) {

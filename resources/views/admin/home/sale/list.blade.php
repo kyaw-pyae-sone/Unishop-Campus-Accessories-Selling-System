@@ -5,10 +5,16 @@
 @section("content")
     <div class="container">
         <div class=" d-flex justify-content-between my-2">
-            <div class=""></div>
+            <div class="">
+                <button disabled class=" btn btn-secondary rounded shadow-sm"> <i class="fa-solid fa-database"></i>
+                    Product Count ({{ count($orderList) }}) </button>
+                <a href="{{ route("sale#list") }}" class=" btn btn-outline-primary  rounded shadow-sm">All Sale</a>
+                <a href="{{ route("sale#list", 1) }}" class=" btn btn-outline-success  rounded shadow-sm">Accept</a>
+                <a href="{{ route("sale#list", 2) }}" class=" btn btn-outline-danger  rounded shadow-sm">Reject</a>
+            </div>
             <div class="">
                 <form action="" method="get">
-
+                    @csrf
                     <div class="input-group">
                         <input type="text" name="searchKey" value="{{ request("searchKey") }}" class=" form-control"
                                placeholder="Enter Search Key...">
@@ -19,7 +25,7 @@
                 </form>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col" >
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -40,7 +46,7 @@
 
                     @foreach($orderList as $order)
 
-                        @if($order -> status == 1)
+                        @if($order -> status == 1 || $order -> status = 2)
                             <tr>
                                 <td>{{ $order -> created_at -> format("j-F-Y") }}</td>
                                 <td><a href="{{ route("order#detail", $order -> order_code) }}" class="orderCode">{{ $order -> order_code }}</a></td>
@@ -79,7 +85,7 @@
 
                     </tbody>
                 </table>
-
+                {{ $orderList -> links() }}
 
             </div>
         </div>

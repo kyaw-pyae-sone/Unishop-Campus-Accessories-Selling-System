@@ -8,8 +8,9 @@
             <div class="">
                 <button disabled class=" btn btn-secondary rounded shadow-sm"> <i class="fa-solid fa-database"></i>
                     Message Count ({{ count($messages) }}) </button>
-                <a href="{{ route("product#list")  }}" class=" btn btn-outline-primary  rounded shadow-sm">All Messages</a>
-                <a href="{{ route("product#list", "low") }}" class=" btn btn-outline-danger  rounded shadow-sm">Unread Messages</a>
+                <a href="{{ route("message#list")  }}" class=" btn btn-outline-primary  rounded shadow-sm">All Messages</a>
+                <a href="{{ route("message#list", "unread") }}" class=" btn btn-outline-danger  rounded shadow-sm">Unread Messages</a>
+                <a href="{{ route("message#list", "read") }}" class=" btn btn-outline-success  rounded shadow-sm">Read Messages</a>
             </div>
             <div class="">
                 <form action="" method="get">
@@ -87,9 +88,9 @@
                                 <td>{{$message -> created_at -> format("j-F-Y")}}</td>
                                 <td>
 
-                                    <a href="" class="btn btn-sm btn-outline-primary"> <i
+                                    <a href="{{ route("message#detail", $message -> message_id) }}" class="btn btn-sm btn-outline-primary"> <i
                                             class="fa-solid fa-eye"></i> </a>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="showAlert({{ $message -> id }})"> <i
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="showAlert({{ $message -> message_id }})"> <i
                                             class="fa-solid fa-trash"></i>
                                     </button>
                                 </td>
@@ -99,7 +100,7 @@
                     @else
                         <tr>
                             <td colspan="7">
-                                <h5 class="text-muted text-center">There is no products</h5>
+                                <h5 class="text-muted text-center">There is no feedbacks</h5>
                             </td>
                         </tr>
                     @endif
@@ -128,7 +129,7 @@
                 confirmButtonText: "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    location.href = "/admin/product/delete/" + id;
+                    location.href = "/admin/message/delete/" + id;
                 }
             });
         }

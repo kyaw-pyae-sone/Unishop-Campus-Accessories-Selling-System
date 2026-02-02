@@ -7,16 +7,16 @@
         <div class=" d-flex justify-content-between my-2">
             <div class=""></div>
             <div class="">
-                <form action="" method="get">
+{{--                <form action="" method="get">--}}
 
-                    <div class="input-group">
-                        <input type="text" name="searchKey" value="{{ request("searchKey") }}" class=" form-control"
-                               placeholder="Enter Search Key...">
-                        <button type="submit" class=" btn bg-dark text-white"> <i
-                                class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
-                </form>
+{{--                    <div class="input-group">--}}
+{{--                        <input type="text" name="searchKey" value="{{ request("searchKey") }}" class=" form-control"--}}
+{{--                               placeholder="Enter Search Key...">--}}
+{{--                        <button type="submit" class=" btn bg-dark text-white"> <i--}}
+{{--                                class="fa-solid fa-magnifying-glass"></i>--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
             </div>
         </div>
         <div class="row">
@@ -38,34 +38,42 @@
                     </thead>
                     <tbody>
 
-                        @foreach($orderList as $order)
+                        @if(count($orderList) == 0)
                             <tr>
-                                <td>{{ $order -> created_at -> format("j-F-Y") }}</td>
-                                <td><a href="{{ route("order#detail", $order -> order_code) }}" class="orderCode">{{ $order -> order_code }}</a></td>
-                                <td>{{ $order -> name }}</td>
-                                <td>
-                                    <select name="" id="" class="form-select statusChange" @if($order -> status != 0) disabled @endif>
-                                        <option value="0" @if($order -> status == 0) selected @endif>Pending</option>
-                                        @if($order -> stock > $order -> count)
-                                            <option value="1" @if($order -> status == 1) selected @endif>Accept</option>
-                                        @endif
-                                        <option value="2" @if($order -> status == 2) selected @endif>Reject</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    @switch($order -> status)
-                                        @case(0)
-                                            <i class="fa-solid fa-clock-rotate-left text-warning"></i>
-                                        @break
-                                        @case(1)
-                                            <i class="fa-solid fa-check text-success"></i>
-                                        @break
-                                        @default
-                                            <i class="fa-solid fa-ban text-danger"></i>
-                                    @endswitch
+                                <td colspan="7">
+                                    <h5 class="text-muted text-center">There is no Pending Orders</h5>
                                 </td>
                             </tr>
-                        @endforeach
+                        @else
+                            @foreach($orderList as $order)
+                                <tr>
+                                    <td>{{ $order -> created_at -> format("j-F-Y") }}</td>
+                                    <td><a href="{{ route("order#detail", $order -> order_code) }}" class="orderCode">{{ $order -> order_code }}</a></td>
+                                    <td>{{ $order -> name }}</td>
+                                    <td>
+                                        <select name="" id="" class="form-select statusChange" @if($order -> status != 0) disabled @endif>
+                                            <option value="0" @if($order -> status == 0) selected @endif>Pending</option>
+                                            @if($order -> stock > $order -> count)
+                                                <option value="1" @if($order -> status == 1) selected @endif>Accept</option>
+                                            @endif
+                                            <option value="2" @if($order -> status == 2) selected @endif>Reject</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        @switch($order -> status)
+                                            @case(0)
+                                                <i class="fa-solid fa-clock-rotate-left text-warning"></i>
+                                                @break
+                                            @case(1)
+                                                <i class="fa-solid fa-check text-success"></i>
+                                                @break
+                                            @default
+                                                <i class="fa-solid fa-ban text-danger"></i>
+                                        @endswitch
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
 
                     </tbody>
                 </table>
