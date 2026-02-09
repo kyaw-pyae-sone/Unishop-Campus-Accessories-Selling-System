@@ -18,6 +18,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-require_once __DIR__."/social_route.php";
-require_once __DIR__."/admin_route.php";
-require_once __DIR__."/user_route.php";
+require __DIR__."/social_route.php";
+require __DIR__."/admin_route.php";
+require __DIR__."/user_route.php";
